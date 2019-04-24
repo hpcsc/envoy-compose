@@ -5,7 +5,7 @@
 [![Structure](https://github.com/hpcsc/envoy-compose/raw/master/structure.png)](https://github.com/hpcsc/envoy-compose/raw/master/structure.png)
 
 - `curl`: container that acts as downstream service
-- `proxy`: Envoy proxy, listens at port 15001 (Admin API listens at 9901)
+- `proxy`: Envoy proxy, listens at port 10000 (Admin API listens at 9901)
 - `httpbin`: container that acts as upstream service
 
 ## Usage
@@ -17,7 +17,7 @@ docker-compose up -d
 ### Get Request Headers through Envoy
 
 ```
-docker-compose exec curl curl proxy:15001/headers
+docker-compose exec curl curl proxy:10000/headers
 ```
 
 This will ask `httpbin` (through Envoy proxy) to return `curl` request headers. Response looks something like:
