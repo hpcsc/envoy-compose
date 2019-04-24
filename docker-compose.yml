@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  proxy:
+    image: envoyproxy/envoy:v1.10.0
+    command: ["envoy", "-c", "/etc/envoy/config.yaml"]
+    volumes:
+      - ./envoy/config.yaml:/etc/envoy/config.yaml
+
+  httpbin:
+    image: kennethreitz/httpbin
+
+  curl:
+    image: appropriate/curl
+    command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
