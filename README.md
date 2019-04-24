@@ -5,20 +5,19 @@
 [![Structure](https://github.com/hpcsc/envoy-compose/raw/master/structure.png)](https://github.com/hpcsc/envoy-compose/raw/master/structure.png)
 
 - `curl`: container that acts as downstream service
-- `proxy`: Envoy proxy
+- `proxy`: Envoy proxy, listens at port 15001 (Admin API listens at 9901)
 - `httpbin`: container that acts as upstream service
 
 ## Usage
 
 ```
 docker-compose up -d
-docker-compose exec curl sh
 ```
 
-Inside `curl` container:
+### Get Request Headers through Envoy
 
 ```
-curl proxy:15001/headers
+docker-compose exec curl curl proxy:15001/headers
 ```
 
 This will ask `httpbin` (through Envoy proxy) to return `curl` request headers. Response looks something like:
@@ -34,3 +33,19 @@ This will ask `httpbin` (through Envoy proxy) to return `curl` request headers. 
   }
 }
 ```
+
+### Access Envoy Admin API
+
+```
+docker-compose exec curl curl proxy:9901/stats
+```
+
+Some Admin API endpoints:
+
+- `/certs` - the certificates on the machine
+- `/clusters` - the clusters Envoy is configured with
+- `/config_dump` - dump the actual Envoy config
+- `/listeners` - the listeners Envoy is configured with
+- `/logging` - can view and change logging settings
+- `/stats` - Envoy statistics
+- `/stats/prometheus` - Envoy statistics as prometheus records
