@@ -16,6 +16,20 @@ docker-compose up -d
 
 ### Get Request Headers through Envoy
 
+Without going through Envoy proxy (.i.e. `docker-compose exec curl curl httpbin:80/headers`), the response is:
+
+```
+{
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin",
+    "User-Agent": "curl/7.59.0"
+  }
+}
+```
+
+To make request through Envoy proxy:
+
 ```
 docker-compose exec curl curl proxy:10000/headers
 ```
@@ -33,6 +47,8 @@ This will ask `httpbin` (through Envoy proxy) to return `curl` request headers. 
   }
 }
 ```
+
+`X-Envoy-Expected-Rq-Timeout-Ms` header is injected by Envoy proxy before forwarding request to `httpbin`
 
 ### Access Envoy Admin API
 
